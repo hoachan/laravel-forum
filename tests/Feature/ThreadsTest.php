@@ -12,6 +12,16 @@ class ThreadsTest extends TestCase
      *
      * @return void
      */
+    
+    public $threads;
+
+
+    public function setUp() {
+        parent::setUp();
+        
+        $this->threads = factory('App\Thread')->create();
+    }
+    
     public function testBasicTest()
     {
         
@@ -21,9 +31,7 @@ class ThreadsTest extends TestCase
     }
     
     public function test_a_user_can_browse_threads(){
-        
-        $threads = factory('App\Thread')->create();
-        
+          
         $response = $this->get('/threads');
         
 //        $response->assertSee($threads->title);
@@ -31,9 +39,21 @@ class ThreadsTest extends TestCase
     }
     
     public function test_a_user_access_thread_detail(){
-        $threads = factory('App\Thread')->create();
         
-        $response  = $this->get('/threads/'.$threads->id);
-        $response->assertSee($threads->title);
+        $response  = $this->get('/threads/'.$this->threads->id);
+        $response->assertSee($this->threads->title);
+    }
+    
+    public function test_a_user_can_read_replies_that_are_associate_with_a_thread (){
+        
+        //given we have a thread -> done
+        
+        //And that thread includes replies
+        $reply = factory('App\Reply')
+                ->create(['thread_id' => $this->threads->id]);
+        //When we visit a thread page
+        $this->get('/threads/'. $this->threads->id)
+              ->assertSee($reply->body);
+        //Then we should see te replies
     }
 }
