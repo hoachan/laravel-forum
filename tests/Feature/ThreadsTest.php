@@ -56,4 +56,8 @@ class ThreadsTest extends TestCase
               ->assertSee($reply->body);
         //Then we should see te replies
     }
+    
+    public  function test_a_thread_has_a_creator(){
+        $this->assertInstanceOf('App\User', $this->threads->owner);
+    }
 }

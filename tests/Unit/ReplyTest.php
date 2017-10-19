@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReplyTest extends TestCase
 {
-    use RefreshDatabase;
+//    use RefreshDatabase;
     public $reply;
     
     public function setUp() {
