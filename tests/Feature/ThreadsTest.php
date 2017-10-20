@@ -58,6 +58,12 @@ class ThreadsTest extends TestCase
     }
     
     public  function test_a_thread_has_a_creator(){
-        $this->assertInstanceOf('App\User', $this->threads->owner);
+        $this->assertInstanceOf('App\User', $this->threads->creator);
+    }
+    
+    public function test_unauth_can_view_threads(){
+        
+        $this->get('/threads/'.$this->threads->id)
+                ->assertSee($this->threads->title);
     }
 }
