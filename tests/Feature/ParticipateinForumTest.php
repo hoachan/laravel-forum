@@ -23,6 +23,9 @@ class ParticipateinForumTest extends TestCase
         //check response return 200 if saving data is success
         $response =  $this->post('/threads/'.$thread->id.'/replies', ['reply' => $reply->toArray(), '_token' => csrf_token()]);
         
+        $this->assertDatabaseHas('replies', [
+            'user_id' => $thread->user_id        
+        ]);
         $this->assertEquals(302, $response->getStatusCode());
         
         //Then their reply shoud be visible on the page
